@@ -7,3 +7,6 @@ node_modules/
 *.iws
 /npm-debug.log
 .DAV
+copy_shield.sh
+
+dist/

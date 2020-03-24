@@ -2497,12 +2497,11 @@
                 }
             }
             // event before
-            if (cmd == 'get') {
-                var edata = this.trigger({ phase: 'before', type: 'request', target: this.name, url: url, postData: params, httpHeaders: this.httpHeaders });
-                if (edata.isCancelled === true) { if (typeof callBack == 'function') callBack({ status: 'error', message: 'Request aborted.' }); return; }
-            } else {
-                var edata = { url: url, postData: params, httpHeaders: this.httpHeaders };
-            }
+            var edata = { phase: 'before', type: 'request', target: this.name, url: url, postData: params, httpHeaders: this.httpHeaders };
+            if (cmd == 'save') edata.type = 'saveRequest';
+            else if (cmd == 'delete') edata.type = 'deleteRequest';
+            this.trigger(edata);
+            if (edata.isCancelled === true) { if (typeof callBack == 'function') callBack({ status: 'error', message: 'Request aborted.' }); return; }
             // call server to get data
             var obj = this;
             if (this.last.xhr_offset === 0) {

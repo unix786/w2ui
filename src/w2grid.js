@@ -358,6 +358,8 @@
         menu              : [],
         method            : null,       // if defined, then overwrited ajax method
         dataType          : null,       // if defined, then overwrited w2utils.settings.dataType
+        /**Will be appended to save and delete requests. Must be an object { name, value }. Right now works only with dataType 'HTTPJSON'*/
+        antiForgeryToken  : null,
         parser            : null,
 
         // these column properties will be saved in stateSave()
@@ -2545,6 +2547,7 @@
                     break;
                 case 'HTTPJSON':
                     ajaxOptions.data = { request: JSON.stringify(ajaxOptions.data) };
+                    if (this.antiForgeryToken) ajaxOptions.data = jQuery.extend(ajaxOptions.data, this.antiForgeryToken);
                     break;
                 case 'RESTFULL':
                     ajaxOptions.type = 'GET';
